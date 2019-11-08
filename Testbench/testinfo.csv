@@ -1,0 +1,6 @@
+Test id," Instruction"," Author"," Message"," Input file"," expected output",expected status
+internal1,INTERNAL," Lukacma"," Testing empty binary",empty,,245
+internal2,INTERNAL," Lukacma"," Testing unknown instruction",empty,,236
+jr1,JR,Lukacma," Jumping outside of instruction space",empty,,245
+or1,OR," Lukacma"," Testing OR with non zero shift value"," empty",,244
+xor1,XOR," Lukacma"," Testing XOR with non zero shift value"," empty",,244

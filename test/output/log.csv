@@ -1,0 +1,6 @@
+Test id, Instruction, Fail, Author, Message
+internal1, INTERNAL, Pass, Lukacma, Testing empty binary
+internal2, INTERNAL, Pass, Lukacma, Testing unknown instruction
+jr1, JR, Pass, Lukacma, Jumping outside of instruction space
+or1, OR, Pass, Lukacma, Testing OR with non zero shift value
+xor1, XOR, Pass, Lukacma, Testing XOR with non zero shift value

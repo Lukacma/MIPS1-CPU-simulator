@@ -1,0 +1,41 @@
+#!/bin/bash
+simulator=$1
+#location of binary test files
+binary_files=Testbench/bin
+#location of output csv file
+output_log=test/output/log.csv
+#preparing folders for testing
+mkdir test>/dev/null 2>&1
+mkdir test/output>/dev/null 2>&1
+rm $output_log&>/dev/null
+touch $output_log&>/dev/null
+#testing
+#244 is invalid instruction, 246 is arithmetic exception and 245 is memory exception
+IFS=, # setting word seperator 
+while read -r test_id instruction author message input_file exp_out exp_status
+do
+    in_file_cleaned=$(echo "$input_file"|xargs); #removing trailing whitespaces
+    sim_out=$($simulator $binary_files/$test_id.mips.bin < Testbench/InputFiles/$in_file_cleaned 2>/dev/null)
+    status=$?
+    echo $status
+    if [[ $status -eq $exp_status ]];
+    then
+        if [[ "$sim_out" == "$exp_out" ]];
+        then 
+            result="Pass"
+            tput setaf 2; #green text
+        else 
+            result="Fail" 
+            tput setaf 1; #red text
+        fi   
+    else
+        result="Fail"
+        tput setaf 1;   #red text
+    fi
+    echo "$test_id, $instruction, $result, $author,
+     $message"|xargs 2>&1 | tee -a "$output_log"
+    
+done < Testbench/testinfo.csv
+
+
+
