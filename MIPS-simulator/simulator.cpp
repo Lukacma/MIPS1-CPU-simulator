@@ -70,13 +70,8 @@ int main(int argc, char *argv[])
 };
 void execute_next_instruction(cpu &cp)
 {
-
-//	uint32_t instruction = parseInstruction(cp.getPc(), cp.mem);
-	uint32_t instruction = 0b00000000001000100001100000100000;
-	cp.regWrite(1, 0x7FFFFFFF);
-	cp.regWrite(2, 0x7FFFFFFF);
-	//cp.setPc(cp.getPc() + 4); //moving pc to next instruction
-	cp.setPc(0);
+	uint32_t instruction = parseInstruction(cp.getPc(), cp.mem);
+	cp.setPc(cp.getPc() + 4); //moving pc to next instruction
 	int opCode = instruction >> 26;
 	if (opCode == 0)
 	{

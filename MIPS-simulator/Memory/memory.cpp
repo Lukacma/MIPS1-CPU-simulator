@@ -15,14 +15,19 @@ void memory::write(uint32_t address, uint32_t in_data, bool isPriveleged)
     data[address + 1] = (uint8_t)((in_data&0x00FF0000)>>16);
     data[address + 2] = (uint8_t)((in_data)&0x0000FF00)>>8;
     data[address + 3] = (uint8_t)(in_data&0x000000FF);
-  }else if(address == 0x30000004){
+  }else if(address >= 0x30000004 && address <= 0x30000007){
     char output [1];
-    output[0] = (char)in_data;
-      std::fprintf(stdout, output);
-      if(std::ferror(stdout)){
-        std::cerr << "IO exception when writing to stdout in mem.write()";//no idea when the hell this will happen butcha gotta follow the spec
-        std::exit(-21);
-      }
+    if(address == 0x30000004){
+      //std::cout << std::bitset<32>(in_data>>24);
+      output[0] = (char)(in_data>>24);
+    }else{
+      output[0] = 0;
+    }
+    std::fprintf(stdout, output);
+    if(std::ferror(stdout)){
+      std::cerr << "IO exception when writing to stdout in mem.write()";//no idea when the hell this will happen butcha gotta follow the spec
+      std::exit(-21);
+    }
   }else if((address >= 0x10000000 && address < 0x11000000) && isPriveleged){//for potential internal testing, normal execution will never write to instruction memory.
     data[address] = (uint8_t)(in_data>>24);
     data[address + 1] = (uint8_t)((in_data&0x00FF0000)>>16);
@@ -38,11 +43,11 @@ void memory::read(uint32_t address, uint32_t &out_data, bool isPriveleged) const
   {                                                                                                                                                      //just for quick testing, too lazy to add a test f
     out_data = ((uint32_t)data[address]) << 24 | ((uint32_t)data[address + 1]) << 16 | ((uint32_t)data[address + 2]) << 8 | (uint32_t)data[address + 3]; //add boundary checks for priveleged mode
   }
-  else if (address == 0x30000000)
+  else if (address >= 0x30000000 && address <= 0x30000003)
   {
     char temp;
     temp = std::getchar();
-    if (temp == 10)
+    if (temp == EOF)
     {
       out_data = 0xFFFFFFFF;
     }
