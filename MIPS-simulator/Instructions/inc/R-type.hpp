@@ -3,9 +3,10 @@
 #include "cpu.hpp"
 
 //void ADDU(cpu& cp, uint32_t srcA, uint32_t srcB, uint32_t dest);Not implemented yet
-void ADD(cpu& cp, uint32_t rd, uint32_t rt, uint32_t rs);
-void ADDU(cpu& cp, uint32_t rd, uint32_t rt, uint32_t rs);
-bool addOverflow(int32_t valA, int32_t valB);//returns true for signed overflow on the two 32-bit signed ints it gets
+void ADD(cpu &cp, uint32_t rd, uint32_t rt, uint32_t rs);
+void AND(cpu &cp, uint32_t rd, uint32_t rt, uint32_t rs);
+void ADDU(cpu &cp, uint32_t rd, uint32_t rt, uint32_t rs);
+bool addOverflow(int32_t valA, int32_t valB); //returns true for signed overflow on the two 32-bit signed ints it gets
 void execute_next_instruction(cpu &cp);
 /* this function is defined in simulator.cpp. Its header is here to avoid creating header file for simulator.cpp file */
 void OR(cpu &cp, uint32_t rd, uint32_t rt, uint32_t rs);
@@ -13,7 +14,6 @@ void checkZeroes(int startIndex, int endIndex, uint32_t instruction);
 void parseRType(cpu &cp, uint32_t instruction); /* parse R-type instruction and executes it.
 Input: cp: handler for memory and registers.
        instruction: R-type binary instruction to be executed.*/
-void JR(cpu &cp, uint32_t rs);
 void MULT(cpu &cp, uint32_t rt, uint32_t rs);
 void MULTU(cpu &cp, uint32_t rt, uint32_t rs);
 void MFHI(cpu &cp, uint32_t rd);
@@ -26,10 +26,13 @@ NOTE: "If either of the two preceding instructions is MFHI or MFLO, the result o
 MFLO is undefined. Reads of the HI or LO special registers must be separated from
 subsequent instructions that write to them by two or more other instructions." Not sure if we should check for this
 I guess undefined means don't care so no*/
-int64_t signExtend64(uint32_t in);
+void DIV(cpu &cp, uint32_t rt, uint32_t rs);
+void DIVU(cpu &cp, uint32_t rt, uint32_t rs);
+int64_t signExtend64for32(uint32_t in);
 
 void checkZeroes(int startIndex, int endIndex, uint32_t instruction);
 void JR(cpu &cp, uint32_t rs);
+void JALR(cpu &cp, uint32_t rs, uint32_t rd);
 void OR(cpu &cp, uint32_t rd, uint32_t rt, uint32_t rs);
 /* bitwise OR on both source register stored in rd.
    Input: rd: index of destination register

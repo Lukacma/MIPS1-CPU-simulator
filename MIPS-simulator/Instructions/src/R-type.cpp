@@ -14,10 +14,13 @@ void parseRType(cpu &cp, uint32_t instruction)
         check0Shift(shamt);
         OR(cp, rd, rt, rs);
         break;
-
     case 0b100110:
         check0Shift(shamt);
         XOR(cp, rd, rt, rs);
+        break;
+    case 0b100100:
+        check0Shift(shamt);
+        AND(cp, rd, rt, rs);
         break;
     case 0b101011:
         check0Shift(shamt);
@@ -38,7 +41,6 @@ void parseRType(cpu &cp, uint32_t instruction)
         break;
     case 0b001000:
         checkZeroes(6, 20, instruction);
-        execute_next_instruction(cp);
         JR(cp, rs);
         break;
     case 0b011000:
@@ -68,7 +70,7 @@ void parseRType(cpu &cp, uint32_t instruction)
         MTLO(cp, rs);
         break;
     case 0b000011:
-        checkZeroes(7, 11, instruction);
+        checkZeroes(21, 25, instruction);
         SRA(cp, rd, rt, shamt);
         break;
     case 0b000111:
@@ -76,7 +78,7 @@ void parseRType(cpu &cp, uint32_t instruction)
         SRAV(cp, rd, rt, rs);
         break;
     case 0b000010:
-        checkZeroes(7, 11, instruction);
+        checkZeroes(21, 25, instruction);
         SRL(cp, rd, rt, shamt);
         break;
     case 0b000110:
@@ -92,18 +94,34 @@ void parseRType(cpu &cp, uint32_t instruction)
         SUB(cp, rd, rt, rs);
         break;
     case 0b100000:
-        checkZeroes(6,10, instruction);
-        ADD(cp, rd , rt, rs);
+        checkZeroes(6, 10, instruction);
+        ADD(cp, rd, rt, rs);
         break;
     case 0b100001:
-        checkZeroes(6,10,instruction);
-        ADDU(cp, rd , rt, rs);
+        checkZeroes(6, 10, instruction);
+        ADDU(cp, rd, rt, rs);
+        break;
+    case 0b011011:
+        checkZeroes(6, 15, instruction);
+        DIVU(cp, rt, rs);
+        break;
+    case 0b011010:
+        checkZeroes(6, 15, instruction);
+        DIV(cp, rt, rs);
+        break;
+    case 0b001001:
+        checkZeroes(6, 10, instruction);
+        checkZeroes(16, 20, instruction);
+        JALR(cp, rs, rd);
         break;
     default:
         throw Internal_error("Unknown instruction received in function parseRType\n");
     }
 }
-
+void AND(cpu &cp, uint32_t rd, uint32_t rt, uint32_t rs)
+{
+    cp.regWrite(rd, cp.regRead(rt) & cp.regRead(rs));
+}
 void OR(cpu &cp, uint32_t rd, uint32_t rt, uint32_t rs)
 {
     cp.regWrite(rd, cp.regRead(rt) | cp.regRead(rs));
@@ -154,26 +172,30 @@ void SUBU(cpu &cp, uint32_t rd, uint32_t rt, uint32_t rs)
 }
 void SUB(cpu &cp, uint32_t rd, uint32_t rt, uint32_t rs)
 {
-    int32_t result = static_cast<int32_t>(cp.regRead(rs)) - static_cast<int32_t>(cp.regRead(rt));
-    if ((rs > rt && result < 0) && (rs < rt && result > 0))
+    int32_t rs_value = cp.regRead(rs);
+    int32_t rt_value = cp.regRead(rt);
+    int32_t result = rs_value - rt_value;
+    if (((rs_value > rt_value) && (result < 0)) || ((rs_value < rt_value) && (result > 0)))
         throw arithmetic_exception("In function SUB: overflow detected");
-
     cp.regWrite(rd, result);
 }
-void ADD(cpu& cp, uint32_t rd, uint32_t rt, uint32_t rs){
-  int32_t valT = (int32_t)cp.regRead(rt);
-  int32_t valS = (int32_t)cp.regRead(rs);
-  if(addOverflow(valT, valS)){//the reason we cast is for the comparisons to work in c but addition is same
-    throw arithmetic_exception("Signed overflow detected in ADD");
-  }
-  int32_t result = valT + valS;
-  cp.regWrite(rd, (uint32_t)result);
+void ADD(cpu &cp, uint32_t rd, uint32_t rt, uint32_t rs)
+{
+    int32_t valT = (int32_t)cp.regRead(rt);
+    int32_t valS = (int32_t)cp.regRead(rs);
+    if (addOverflow(valT, valS))
+    { //the reason we cast is for the comparisons to work in c but addition is same
+        throw arithmetic_exception("Signed overflow detected in ADD");
+    }
+    int32_t result = valT + valS;
+    cp.regWrite(rd, (uint32_t)result);
 }
-void ADDU(cpu& cp, uint32_t rd, uint32_t rt, uint32_t rs){
-  uint32_t valT = cp.regRead(rt);
-  uint32_t valS = cp.regRead(rs);
-  uint32_t result = valT + valS;
-  cp.regWrite(rd,result);
+void ADDU(cpu &cp, uint32_t rd, uint32_t rt, uint32_t rs)
+{
+    uint32_t valT = cp.regRead(rt);
+    uint32_t valS = cp.regRead(rs);
+    uint32_t result = valT + valS;
+    cp.regWrite(rd, result);
 }
 void check0Shift(uint32_t shamt)
 {
@@ -184,21 +206,34 @@ void check0Shift(uint32_t shamt)
 void JR(cpu &cp, uint32_t rs)
 {
     uint32_t targetAddress = cp.regRead(rs);
+    execute_next_instruction(cp); //actual value of register at index rs may have been changed by the next instruction
+    if (targetAddress & 0b11)
     {
-        if (targetAddress & 0b11)
-        {
-            throw memory_exception("Unaligned address in JR");
-        }
-        else
-        {
-            cp.setPc(targetAddress);
-        }
+        throw memory_exception("Unaligned address in JR");
+    }
+    else
+    {
+        cp.setPc(targetAddress);
+    }
+}
+void JALR(cpu &cp, uint32_t rs, uint32_t rd)
+{
+    cp.regWrite(rd, (cp.getPc() + 4));
+    uint32_t targetAddress = cp.regRead(rs);
+    execute_next_instruction(cp);
+    if (!(targetAddress & 0b11))
+    { //if whoever is reading this has OCD and is comparing this to the above. I am SO SORRY.
+        cp.setPc(targetAddress);
+    }
+    else
+    {
+        throw memory_exception("Unaligned address in JALR");
     }
 }
 void MULT(cpu &cp, uint32_t rt, uint32_t rs)
 {
-    int64_t valOne = signExtend64(cp.regRead(rt)); //NOTE:casting does not sign-extend
-    int64_t valTwo = signExtend64(cp.regRead(rs));
+    int64_t valOne = signExtend64for32(cp.regRead(rt)); //NOTE:casting does not sign-extend
+    int64_t valTwo = signExtend64for32(cp.regRead(rs));
     int64_t result = valOne * valTwo;
     cp.setHI((uint32_t)(result >> 32));
     cp.setLO((uint32_t)(result & 0xFFFFFFFF));
@@ -210,6 +245,22 @@ void MULTU(cpu &cp, uint32_t rt, uint32_t rs)
     int64_t result = valOne * valTwo;
     cp.setHI((uint32_t)(result >> 32));
     cp.setLO((uint32_t)(result & 0xFFFFFFFF));
+}
+void DIV(cpu &cp, uint32_t rt, uint32_t rs)
+{
+    //std::cerr << std::bitset<32>(cp.regRead(rs)) << "\n";
+    //std::cerr << std::bitset<32>(cp.regRead(rt)) << "\n";
+    cp.setLO(((int32_t)cp.regRead(rs)) / ((int32_t)cp.regRead(rt)));
+    cp.setHI(((int32_t)cp.regRead(rs)) % ((int32_t)cp.regRead(rt)));
+    //std::cerr << "Quotient: "<< std::bitset<32>(cp.getLO()) << "\n";
+    //std::cerr << "Remainder: "<< std::bitset<32>(cp.getHI()) << "\n";
+}
+void DIVU(cpu &cp, uint32_t rt, uint32_t rs)
+{
+    cp.setLO((cp.regRead(rs)) / (cp.regRead(rt)));
+    cp.setHI((cp.regRead(rs)) % (cp.regRead(rt)));
+    //std::cerr << "Quotient: "<< std::bitset<32>(cp.getLO()) << "\n";
+    //std::cerr << "Remainder: "<< std::bitset<32>(cp.getHI()) << "\n";
 }
 void MFHI(cpu &cp, uint32_t rd)
 {
@@ -244,25 +295,31 @@ void checkZeroes(int startIndex, int endIndex, uint32_t instruction)
         }
     }
 }
-int64_t signExtend64(uint32_t in)
+int64_t signExtend64for32(uint32_t in)
 {
-    int64_t result = (int64_t)in;
+    int64_t result = (int32_t)in;
     if (result & 0x80000000)
     {
         result = result | 0xFFFFFFFF00000000;
     }
     return result;
 }
-bool addOverflow(int32_t valA, int32_t valB){
-  int32_t temp = valA + valB;
-	if (valA < 0 && valB < 0){
-			if(temp > 0){
-				return true;
-			}
-	}else if(valA > 0 && valB >0){
-			if(temp < 0){
-				return true;
-			}
-	}
-	return false;
+bool addOverflow(int32_t valA, int32_t valB)
+{
+    int32_t temp = valA + valB;
+    if (valA < 0 && valB < 0)
+    {
+        if (temp >= 0)
+        {
+            return true;
+        }
+    }
+    else if (valA > 0 && valB > 0)
+    {
+        if (temp < 0)
+        {
+            return true;
+        }
+    }
+    return false;
 }

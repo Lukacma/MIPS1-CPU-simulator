@@ -1,6 +1,199 @@
-Test id," Instruction"," Author"," Message"," Input file"," expected output",expected status
-internal1,INTERNAL," Lukacma"," Testing empty binary",empty,,245
-internal2,INTERNAL," Lukacma"," Testing unknown instruction",empty,,236
-jr1,JR,Lukacma," Jumping outside of instruction space",empty,,245
-or1,OR," Lukacma"," Testing OR with non zero shift value"," empty",,244
-xor1,XOR," Lukacma"," Testing XOR with non zero shift value"," empty",,244
+internal1,INTERNAL,Lukacma,Testing empty binary,empty,,245,5
+internal4,INTERNAL,Lukacma,Testing whether instruction memory and data memory is 0 initialized,empty,,0,300
+internal6,INTERNAL,Lukacma,Testing non terminated binary,empty,,245,5
+internal7,INTERNAL,Lukacma,Testing 0 initialization of registers,empty,,0,5
+internal8,INTERNAL,Lukacma,Testing hardwiring of 0 register,empty,,0,5
+internal9,INTERNAL,Lukacma,Ability to read longer inputs and print output,ascii_symbols,ascii_symbols,0,5
+and1,AND,Lukacma,Basic functionality test,empty,,217,5
+and2,AND,Lukacma,Checking with nonzero values between 6th and 10th bit,empty,,244,5
+andi1,ANDI,Lukacma,Basic functionality test,empty,,217,5
+andi2,ANDI,Lukacma,Checking if immediate is zero extended,empty,,0,5
+jr1,JR,Lukacma,Jumping outside of instruction space,empty,,245,5
+jr2,JR,Lukacma,Jumping to misalligned address,empty,,245,5
+jr3,JR,Lukacma,Jumping to  data memory,empty,,245,5
+jr4,JR,Lukacma,Jumping to  GET_C memory,empty,,245,5
+jr5,JR,Lukacma,Jumping to  PUT_C memory,empty,,245,5
+jr6,JR,Lukacma,Basic functionality test,empty,,0,5
+jr7,JR,Lukacma,Testing branch delay slot,empty,,5,5
+jr8,JR,Lukacma,Testing nonzero value between 6th and 20th bit,empty,,244,5
+or1,OR,Lukacma,Testing OR with non zero shift value,empty,,244,5
+or2,OR,Lukacma,Basic func. check,empty,,9,5
+ori1,ORI,Lukacma,Checking zero extending of immediate and basic func. check,empty,,8,5
+lw1,LW,Lukacma,Testing LW for inputting into simulator,A,,65,5
+lw2,LW,Lukacma,Testing if EOF has correct code,empty,,0xFF,5
+lw3,LW,Lukacma,Reading from instruction memory,empty,,1,5
+lw4,LW,Lukacma,Reading from PUT_C memory,empty,,245,5
+lw6,LW,Lukacma,Reading from 0th memory,empty,,245,5
+lw5,LW,Lukacma,Reading from negative memory location,empty,,245,5
+lw7,LW,Lukacma,Reading from unwritable memory location,empty,,245,5
+lw8,LW,Lukacma,Checking that offset is signed,empty,,245,5
+lh1,LH,Lukacma,Basic funct. check,empty,,0xFF,5
+lh3,LH,Lukacma,Reading from instruction memory + checking if offset is signed,empty,,1,5
+lh4,LH,Lukacma,Loading from misalligned address,empty,,245,5
+lh5,LH,Lukacma,Checking if the halfword is sign extended,empty,,0xFF,5
+lhu1,LHU,Lukacma,Basic funct. check,empty,,0x8,5
+lhu2,LHU,Lukacma,Checkking if extension is unsigned,empty,,0,5
+lb1,LB,Lukacma,Basic funct. check,empty,,0xF,5
+lb3,LB,Lukacma,Checking that extension is signed,empty,,0xFF,5
+lbu1,LBU,Lukacma,Basic funct. check,empty,,0xF,5
+lbu2,LBU,Lukacma,Checking that extension is unsigned+ Checking that immediate is signed,empty,,0,5
+lui1,LUI,Lukacma,Basic funct. check,empty,,0,5
+lui2,LUI,Lukacma,Checking that destination register is overwritten,empty,,0,5
+lui3,LUI,Lukacma,Checking with nonzero value between 21th and 25th bit,empty,,244,5
+lwl1,LWL,Lukacma,Basic funct. check (fully alligned),empty,,4,5
+lwl2,LWL,Lukacma,Basic funct. check (one off),empty,,4,5
+lwl3,LWL,Lukacma,Basic funct. check (two off),empty,,4,5
+lwl4,LWL,Lukacma,Basic funct. check (three off),empty,,4,5
+lwl5,LWL,Lukacma,Checking if lower bits are preserved,empty,,0xFF,5
+lwl6,LWL,Lukacma,Testing that memory exception is not thrown when reading from last word,empty,,0,5
+lwl7,LWL,Lukacma,Trying reading from unreadable memory,empty,,245,5
+lwl8,LWL,Lukacma,Reading from Get_C location,A,,65,5
+lwr1,LWR,Lukacma,Basic funct. check (fully alligned),empty,,4,5
+lwr2,LWR,Lukacma,Basic funct. check (one off),empty,,3,5
+lwr3,LWR,Lukacma,Basic funct. check (two off),empty,,2,5
+lwr4,LWR,Lukacma,Basic funct. check (three off),empty,,1,5
+lwr5,LWR,Lukacma,Checking if upper bits are preserved,empty,,0xFF,5
+lwr6,LWR,Lukacma,Trying reading from unreadable memory,empty,,245,5
+lwr7,LWR,Lukacma,Reading from GET_C,A,,65,5
+sw1,SW,Lukacma,Testing SW for outputting into terminal,empty,zero,0,5
+sw2,SW,Lukacma,Testing SW for storing into instruction memory,empty,,245,5
+sw3,SW,Lukacma,Testing SW for storing into 0x0000000,empty,,245,5
+sw4,SW,Lukacma,Testing SW for storing into unwritable memory by declaring negative offset,empty,,245,5
+sw5,SW,Lukacma,Testing SW for storing into GET_C memory,empty,,245,5
+sw6,SW,Lukacma,Testing SW for storing into negative memory location,empty,,245,5
+sw7,SW,Lukacma,Testing SW for storing into misalligned memory,empty,,245,5
+sw8,SW,Lukacma,Basic funct check,empty,,9,5
+sw9,SW,Lukacma,Checking if offset is signed,empty,,9,5
+sw10,SW,Lukacma,outputting line into terminal( multiple chars),empty,hello_there,0,5
+sh1,SH,Lukacma,Basic funct. test,empty,,190,5
+sh2,SH,Lukacma,Testing if only first 16 bits are written into memory,empty,,0x80,5
+sh3,SH,Lukacma,Testing if offset is signed,empty,,0x80,5
+sh4,SH,Lukacma,Testing misalligned address,empty,,245,5
+sb1,SB,Lukacma,Basic funct. test,empty,,0xF,5
+sb2,SB,Lukacma,testing if Jumping to misalligned address is allowed,empty,,0xF,5
+sb3,SB,Lukacma,Jumping outside of data memory,empty,,245,5
+subu1,SUBU,Lukacma,Testing if it implements modulo arithmetic correctly,empty,,64,5
+subu2,SUBU,Lukacma,Basic func. test,empty,,14,5
+sub1,SUB,Lukacma,Testing integer overflow,empty,,246,5
+sub2,SUB,Lukacma,Another overflow check,empty,,246,5
+sub3,SUB,Lukacma,Basic func. check,empty,,1,5
+sub4,SUB,Lukacma,Testing subtracting register from itself,empty,,0,5
+srlv1,SRLV,Lukacma,Checking that shift is not arithmetic,empty,,1,5
+srlv2,SRLV,Lukacma,Checking that only first 5 bits are used,empty,,8,5
+srlv3,SRLV,Lukacma,Basic funct. check,empty,,2,5
+srlv4,SRLV,Lukacma,Testing SRLV with nonzero shift value,empty,,244,5
+srl1,SRL,Lukacma,Checking that shift is not arithmetic,empty,,1,5
+srl2,SRL,Lukacma,Basic funct. check,empty,,2,5
+srl3,SRL,Lukacma,Checking SRL with non zero rs register,empty,,244,5
+srav1,SRAV,Lukacma,Checking that shift is arithmetic,empty,srav,0xFF,5
+srav2,SRAV,Lukacma,Checking that only first 5 bits are used for shift,empty,,1,5
+xor1,XOR,Lukacma,Testing XOR with non zero shift value,empty,,244,5
+xor2,XOR,Lukacma,Basic funct. check,empty,,0x36,5
+xori1,XORI,Lukacma,Basic funct. check,empty,,0x36,5
+xori2,XORI,Lukacma,checking zero extension of immediate,empty,,0,5
+sra1,SRA,Lukacma,Testing SRA with non zero first register,empty,,244,5
+sra2,SRA,Lukacma,Basic funct.test+ checking that shift is arithmetic,empty,,0xFF,5
+sltu1,SLTU,Lukacma,Testing that comparison is unsigned,empty,,1,5
+sltu2,SLTU,Lukacma,Checking equality behaviour,empty,,0,5
+sltu3,SLTU,Lukacma,Basic funct. check,empty,,0,5
+sltu4,SLTU,Lukacma,Checking nonzero shift,empty,,244,5
+sltiu1,SLTIU,Lukacma,Testing signed immediate extension+ Checking that comparison is unsigned,empty,,1,5
+sltiu2,SLTIU,Lukacma,Basic func. test,empty,,0,5
+sltiu3,SLTIU,Lukacma,Checking equivalence bahviour,empty,,0,5
+slti1,SLTI,Lukacma,Checking if immediate is signed,empty,,0,5
+slti2,SLTI,Lukacma,Checking that registor value is signed,empty,,1,5
+slti3,SLTI,Lukacma,Checking equivalence behaviour,empty,,0,5
+slt1,SLT,Lukacma,Checking equivalence behaviour,empty,,0,5
+slt2,SLT,Lukacma,Checking that comparison is signed,empty,,1,5
+slt3,SLT,Lukacma,Basic funct. check,empty,,1,5
+slt4,SLT,Lukacma,Checking nonempty shift,empty,,244,5
+sllv1,SLLV,Lukacma,Testing that only 5 bits are used+ Basic funct test,empty,,2,5
+sllv2,SLLV,Lukacma,Checking nonzeor shift,empty,,244,5
+sll1,SLL,Lukacma,Testing SLL with non zero first register,empty,,244,5
+sll2,SLL,Lukacma,Basic functionality test,empty,,0x80,5
+divu1,DIVU,Lukacma,Basic functionality test,empty,,3,5
+divu2,DIVU,Lukacma,Checking with nonzero value between 6th and 15th bit,empty,,244,5
+div1,DIV,Lukacma,Basic functionality test(positive/positive),empty,,3,5
+div2,DIV,Lukacma,Basic functionality test(negative/negative),empty,,1,5
+div3,DIV,Lukacma,Basic functionality test(positive/negative),empty,,0xFF,5
+div4,DIV,Lukacma,Basic functionality test(negative/positive),empty,,0xFE,5
+div5,DIV,Lukacma,Dividing by zero,empty,,0,5
+div6,DIV,Lukacma,Checking with nonzero value between 6th and 15th bit,empty,,244,5
+multu1,MULTU,Lukacma,Basic functionality test,empty,,72,5
+multu2,MULTU,Lukacma,Checking splitting into HI and LO register,empty,,5,5
+multu3,MULTU,Lukacma,Checking that destination register is overwritten,empty,,1,5
+multu4,MULTU,Lukacma,Testing if multiplication is unsigned,empty,,1,5
+multu5,MULTU,Lukacma,Testing with non zero bits between position 15-6,empty,,244,5
+multu6,MULTU,Lukacma,Zero multiplication,empty,,0,5
+mult1,MULT,Lukacma,Basic functionality test,empty,,15,5
+mult2,MULT,Lukacma,Testing that multiplication is signed(positive*negative),empty,,0xFF,5
+mult3,MULT,Lukacma,Testing that multiplication is signed 2(negative*negative),empty,,2,5
+mult4,MULT,Lukacma,Checking splitting into HI and LO register,empty,,5,5
+mult5,MULT,Lukacma,Zero multiplication,empty,,0,5
+mult6,MULT,Lukacma,Testing with non zero bits between position 15-6,empty,,244,5
+mthi1,MTHI,Lukacma,Basic funct. check,empty,,8,5
+mthi2,MTHI,Lukacma,Checking non zero bits between 6 and 20,empty,,244,5
+mtlo1,MTLO,Lukacma,Basic funct. check,empty,,8,5
+mtlo2,MTLO,Lukacma,Checking non zero bits between 6 and 20,empty,,244,5
+mfhi1,MFHI,Lukacma,Basic funct. check,empty,,8,5
+mfhi2,MFHI,Lukacma,Checking with non zero values between 6 and 10 bit,empty,,244,5
+mfhi3,MFHI,Lukacma,Checking with non zero values between 16 and 25 bit,empty,,244,5
+mflo1,MFLO,Lukacma,Basic funct. check,empty,,8,5
+mflo2,MFLO,Lukacma,Checking with non zero values between 6 and 10 bit,empty,,244,5
+mflo3,MFLO,Lukacma,Checking with non zero values between 16 and 25 bit,empty,,244,5
+add1,ADD,Lukacma,Basic funct. check,empty,,86,5
+add2,ADD,Lukacma,Checking overflow (with two negatives),empty,,246,5
+add3,ADD,Lukacma,Checking overflow (with two positives),empty,,246,5
+add4,ADD,Lukacma,Passing nonzero shift to add,empty,,244,5
+addu1,ADDU,Lukacma,Checking that no arithmetic exceptions are thrown + Basic functionality test,empty,,2,5
+addu2,ADDU,Lukacma,Passing nonzero shift to addu,empty,,244,5
+addi1,ADDI,Lukacma,Basic funct. test,empty,,37,5
+addi2,ADDI,Lukacma,Checking if immediate is signed,empty,,0xFF,5
+addi3,ADDI,Lukacma,Checking overflow (negative*negative),empty,,246,5
+addi4,ADDI,Lukacma,Checking overflow (positive*positive),empty,,246,5
+addiu1,ADDIU,Lukacma,Basic funct. test,empty,,37,5
+addiu2,ADDIU,Lukacma,Checking if immediate is signed,empty,,0xFF,5
+addiu3,ADDIU,Lukacma,Checking if overflow is captured (negative*negative),empty,,0xFF,5
+addiu4,ADDIU,Lukacma,Checking if overflow is captured (positive*positive),empty,,0,5
+jal1,JAL,Lukacma,Basic funct. check,empty,,8,5
+jal2,JAL,Lukacma,Checking branch delay slot,empty,,1,5
+jal3,JAL,Lukacma,Testing if GPR 31 is written to before branch delay instruction,empty,,0,5
+j1,J,Lukacma,Basic funct. check,empty,,8,5
+j2,J,Lukacma,Checking branch delay slot,empty,,4,5
+beq1,BEQ,Lukacma,Basic funct. check( if it jumps),empty,,7,5
+beq2,BEQ,Lukacma,Branching outside of instruction memory,empty,,245,5
+beq4,BEQ,Lukacma,Basic funct. check( if it compares correctly),empty,,15,5
+beq5,BEQ,Lukacma,Checking if it compares before branch delay,empty,,21,5
+bgez1,BGEZ,Lukacma,Basic funct. check(comparing to 0),empty,,21,5
+bgez2,BGEZ,Lukacma,Basic funct. check(comparing to negative),empty,,25,5
+bgez3,BGEZ,Lukacma,Basic funct. check(comparing to positive),empty,,0,5
+bgez4,BGEZ,Lukacma,Checking if branch delay slot works,empty,,25,5
+bgez5,BGEZ,Lukacma,Backwards branching,empty,,0,5
+bgez6,BGEZ,Lukacma,Checking if comparison is evaluated before branch delay,empty,,0,5
+bgez7,BGEZ,Lukacma,Branching outside instruction memory,empty,,245,5
+bgezal1,BGEZAL,Lukacma,Basic funct. check + checking if branching to correct address,empty,,5,5
+bgezal2,BGEZAL,Lukacma,Checking if GPR 31 is written to before branch delay,empty,,4,5
+bgezal3,BGEZAL,Lukacma,Basic funct. check( comparing with negative),empty,,0,5
+bgtz1,BGTZ,Lukacma,Basic funct. check (comparing 0),empty,,0,5
+bgtz2,BGTZ,Lukacma,Basic funct. check (comparing with negative),empty,,0,5
+bgtz3,BGTZ,Lukacma,Checking with nonzero value between 20th and 16th bit,empty,,244,5
+blez1,BLEZ,Lukacma,Basic funct. check (comparing negative),empty,,7,5
+blez2,BLEZ,Lukacma,Checking if delay slot works and if the branch is evaluated before it,empty,,245,5
+blez3,BLEZ,Lukacma,Checking with nonzero value between 20th and 16th bit,empty,,244,5
+bltz1,BLTZ,Lukacma,Basic funct. check (comparing negative),empty,,7,5
+bltz2,BLTZ,Lukacma,Basic funct. check (comparing zero),empty,,0,5
+bltzal1,BLTZAL,Lukacma,Checking that linking works,empty,,7,5
+bltzal2,BLTZAL,Lukacma,Checking if GPR 31 is written to before branch delay slot,empty,,245,5
+bne1,BNE,Lukacma,Basic funct. check (comparing 0 to 0),empty,,0,5
+bne2,BNE,Lukacma,Basic funct. check,empty,,7,5
+bne3,BNE,Lukacma,Branching outside of instruction memory,empty,,245,5
+jalr1,JALR,Lukacma,Basic funct. check,empty,,8,5
+jalr2,JALR,Lukacma,Testing if GPR 31 is written to before branch delay instruction,empty,,0,5
+jalr3,JALR,Lukacma,Checking if branch delay works,empty,,5,5
+jalr4,JALR,Lukacma,Jumping outside of instruction space,empty,,245,5
+jalr6,JALR,Lukacma,Jumping to misalligned address,empty,,245,5
+jalr5,JALR,Lukacma,Jumping to  data memory,empty,,245,5
+jalr7,JALR,Lukacma,Jumping to  GET_C memory,empty,,245,5
+jalr8,JALR,Lukacma,Jumping to  PUT_C memory,empty,,245,5
+jalr9,JALR,Lukacma,Checking with non zero values between 6 and 10 bit,empty,,244,5
+jalr10,JALR,Lukacma,Checking with non zero values between 16 and 20 bit,empty,,244,5

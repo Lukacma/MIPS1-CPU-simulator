@@ -20,7 +20,7 @@ OBJ_FILES=$(patsubst  %.cpp,%.o,$(notdir $(SRC_FILES)))
 MIPS_CC = mips-linux-gnu-gcc
 MIPS_OBJCOPY = mips-linux-gnu-objcopy
 MIPS_OBJDUMP = mips-linux-gnu-objdump
-MIPS_CPPFLAGS = -W -Wall -O3 -fno-builtin -march=mips1 -mfp32 -mplt
+MIPS_CPPFLAGS = -W -Wall -O3 -fno-builtin -march=mips1 -mfp32 -mplt -mno-check-zero-division
 MIPS_LDFLAGS = -nostdlib -Wl,-melf32btsmip -march=mips1 -nostartfiles -mno-check-zero-division -Wl,--gpsize=0 -static -Wl,-Bstatic -Wl,--build-id=none
 
 # Compile C file (.c) into MIPS object file (.o)
@@ -61,8 +61,12 @@ bin/mips_simulator: $(OBJ_FILES)
 simulator: bin/mips_simulator
 	@echo Done
 # Dummy for build testbench to conform to spec. Could do nothing
-testbench: $(TESTS)
+testbench:
 	@chmod +x bin/$@
+	@bin/dependency.sh
+	@make test
+test: $(TESTS)
+	echo "Done"
 clean:
 	@rm bin/*.o
 	@rm bin/mips_simulator

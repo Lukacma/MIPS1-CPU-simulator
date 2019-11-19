@@ -1,5 +1,6 @@
 #!/bin/bash
-simulator=$1
+simulator=$1;
+exit_status=0;
 #location of binary test files
 binary_files=Testbench/bin
 #location of output csv file
@@ -9,33 +10,42 @@ mkdir test>/dev/null 2>&1
 mkdir test/output>/dev/null 2>&1
 rm $output_log&>/dev/null
 touch $output_log&>/dev/null
+
 #testing
 #244 is invalid instruction, 246 is arithmetic exception and 245 is memory exception
 IFS=, # setting word seperator 
-while read -r test_id instruction author message input_file exp_out exp_status
+while read -r test_id instruction author message input_file exp_out exp_status timeout
 do
-    in_file_cleaned=$(echo "$input_file"|xargs); #removing trailing whitespaces
-    sim_out=$($simulator $binary_files/$test_id.mips.bin < Testbench/InputFiles/$in_file_cleaned 2>/dev/null)
-    status=$?
-    echo $status
+    in_file_cleaned=$(echo "$input_file"|xargs);
+    out_file_cleaned=$(echo "$exp_out"|xargs);  #removing trailing whitespaces
+    sim_out=$(timeout $timeout $simulator $binary_files/$test_id.mips.bin < Testbench/InputFiles/$in_file_cleaned 2>/dev/null);
+    status=$?;
+    #echo "simout: $sim_out exp_out: "$(cat Testbench/InputFiles/$out_file_cleaned 2>/dev/null)" status:$status exp_status:$exp_status"
+
     if [[ $status -eq $exp_status ]];
     then
-        if [[ "$sim_out" == "$exp_out" ]];
+        if [[ "$sim_out" == "$(cat Testbench/InputFiles/$out_file_cleaned 2>/dev/null)" ]];
         then 
-            result="Pass"
+            result="Pass";
             tput setaf 2; #green text
         else 
-            result="Fail" 
-            tput setaf 1; #red text
+            exit_status=1;
+            result="Fail";
+            tput setaf 1 #red text
         fi   
     else
-        result="Fail"
+        exit_status=1;
+        result="Fail";
         tput setaf 1;   #red text
-    fi
-    echo "$test_id, $instruction, $result, $author,
-     $message"|xargs 2>&1 | tee -a "$output_log"
+   fi
+  
+   
+         echo "$test_id, $instruction, $result, $author,
+            $message" |xargs 2>&1 | tee -a "$output_log"
     
 done < Testbench/testinfo.csv
 
 
+
+exit $exit_status;
 

@@ -25,15 +25,6 @@ int main(int argc, char *argv[])
 	try
 	{
 		loadBinary(cp.mem, fileName);
-	}
-	catch (const IO_error &e)
-	{
-		std::cerr << e.what();
-		std::exit(-21);
-	}
-
-	try
-	{
 		//Execution
 		while (cp.getPc() != 0)
 		{
@@ -117,6 +108,6 @@ void loadBinary(memory &mem, std::string fileName)
 	}
 	else
 	{
-		throw IO_error("Binary file:" + fileName + "not found \n");
+		throw IO_error("Binary file:" + fileName + " not found \n");
 	}
 };

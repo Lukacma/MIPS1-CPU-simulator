@@ -1,0 +1,39 @@
+.globl entry
+.set noat
+ entry:
+     or $ra,$ra,$at
+     or $ra,$ra,$v0
+     or $ra,$ra,$v1
+     or $ra,$ra,$a0
+     or $ra,$ra,$a1
+     or $ra,$ra,$a2
+     or $ra,$ra,$a3
+     or $ra,$ra,$t0	
+         or $ra,$ra,$t1
+         or $ra,$ra,$t2
+         or $ra,$ra,$t3
+         or $ra,$ra,$t4
+         or $ra,$ra,$t5
+         or $ra,$ra,$t6
+         or $ra,$ra,$t7
+         or $ra,$ra,$s0
+         or $ra,$ra,$s1
+         or $ra,$ra,$s2
+         or $ra,$ra,$s3
+         or $ra,$ra,$s4
+         or $ra,$ra,$s5
+         or $ra,$ra,$s6
+         or $ra,$ra,$s7
+         or $ra,$ra,$t8
+         or $ra,$ra,$t9
+         or $ra,$ra,$k0
+         or $ra,$ra,$k1
+         or $ra,$ra,$sp
+         or $ra,$ra,$fp
+         or $ra,$ra,$zero
+    mfhi $t0
+    mflo $t1
+    or $ra,$ra,$t0
+    or $ra,$ra,$t1
+    jr $ra		
+    
