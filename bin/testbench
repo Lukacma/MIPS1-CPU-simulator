@@ -45,7 +45,7 @@ do
     
 done < Testbench/testinfo.csv
 
-
+tput setaf 7;
 
 exit $exit_status;
 

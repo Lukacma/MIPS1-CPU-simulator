@@ -1,0 +1,4 @@
+*.o
+\.ionide/
+
+\.vscode/

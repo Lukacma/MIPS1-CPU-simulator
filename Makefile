@@ -10,18 +10,21 @@ INCFLAGS = -IMIPS-simulator/Memory -IMIPS-simulator/CPU -IMIPS-simulator/Instruc
 #path for finding source files
 vpath %.cpp MIPS-simulator:MIPS-simulator/Memory:MIPS-simulator/CPU:MIPS-simulator/Instructions/src
 vpath %.s   Testbench/Tests
+vpath %.c   Testbench/Tests
+
 # searching for all source files and creating object files names 
 SRC_FILES= $(wildcard MIPS-simulator/*/*/*.cpp) $(wildcard MIPS-simulator/*/*.cpp) $(wildcard MIPS-simulator/*.cpp) 
-TEST_FILES= $(wildcard Testbench/Tests/*.s)
-TESTS=$(patsubst %.s,%.mips.bin,$(notdir $(TEST_FILES)))
+TEST_FILES= $(wildcard Testbench/Tests/*.s) $(wildcard Testbench/Tests/*.c)
+ASSEMBLY_TESTS=$(patsubst %.s,%.mips.bin,$(notdir $(TEST_FILES)))
+C_TESTS=$(patsubst %.c,%.mips.bin,$(notdir $(TEST_FILES)))
 OBJ_FILES=$(patsubst  %.cpp,%.o,$(notdir $(SRC_FILES)))
 
 # For MIPS binaries. Turn on all warnings, enable all optimisations and link everything statically
 MIPS_CC = mips-linux-gnu-gcc
 MIPS_OBJCOPY = mips-linux-gnu-objcopy
 MIPS_OBJDUMP = mips-linux-gnu-objdump
-MIPS_CPPFLAGS = -W -Wall -O3 -fno-builtin -march=mips1 -mfp32 -mplt -mno-check-zero-division
-MIPS_LDFLAGS = -nostdlib -Wl,-melf32btsmip -march=mips1 -nostartfiles -mno-check-zero-division -Wl,--gpsize=0 -static -Wl,-Bstatic -Wl,--build-id=none
+MIPS_CPPFLAGS = -nostdlib -W -Wall -O0 -fno-builtin -march=mips1 -mfp32 -mplt -mno-check-zero-division
+MIPS_LDFLAGS = -nostdlib -Wl,-melf32btsmip -march=mips1 -nostartfiles -mno-check-zero-division -Wl,--gpsize=0 -static -Wl,-Bstatic -Wl,--build-id=none 
 
 # Compile C file (.c) into MIPS object file (.o)
 %.mips.o: %.c
@@ -65,7 +68,7 @@ testbench:
 	@chmod +x bin/$@
 	@bin/dependency.sh
 	@make test
-test: $(TESTS)
+test: $(ASSEMBLY_TESTS) $(C_TESTS)
 	echo "Done"
 clean:
 	@rm bin/*.o
