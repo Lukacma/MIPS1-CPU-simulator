@@ -65,7 +65,7 @@ simulator: bin/mips_simulator
 	@echo Done
 # Dummy for build testbench to conform to spec. Could do nothing
 testbench:
-	@chmod +x bin/$@
+	@chmod +x bin/*
 	@bin/dependency.sh
 	@make test
 test: $(ASSEMBLY_TESTS) $(C_TESTS)
