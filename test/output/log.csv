@@ -5,7 +5,6 @@ internal7, INTERNAL, Pass, Lukacma, Testing 0 initialization of registers
 internal8, INTERNAL, Pass, Lukacma, Testing hardwiring of 0 register
 internal9, INTERNAL, Pass, Lukacma, Ability to read longer inputs and print output
 and1, AND, Pass, Lukacma, Basic functionality test
-and2, AND, Pass, Lukacma, Checking with nonzero values between 6th and 10th bit
 andi1, ANDI, Pass, Lukacma, Basic functionality test
 andi2, ANDI, Pass, Lukacma, Checking if immediate is zero extended
 jr1, JR, Pass, Lukacma, Jumping outside of instruction space
@@ -15,8 +14,6 @@ jr4, JR, Pass, Lukacma, Jumping to GET_C memory
 jr5, JR, Pass, Lukacma, Jumping to PUT_C memory
 jr6, JR, Pass, Lukacma, Basic functionality test
 jr7, JR, Pass, Lukacma, Testing branch delay slot
-jr8, JR, Pass, Lukacma, Testing nonzero value between 6th and 20th bit
-or1, OR, Pass, Lukacma, Testing OR with non zero shift value
 or2, OR, Pass, Lukacma, Basic func. check
 ori1, ORI, Pass, Lukacma, Checking zero extending of immediate and basic func. check
 lw1, LW, Pass, Lukacma, Testing LW for inputting into simulator
@@ -39,7 +36,6 @@ lbu1, LBU, Pass, Lukacma, Basic funct. check
 lbu2, LBU, Pass, Lukacma, Checking that extension is unsigned+ Checking that immediate is signed
 lui1, LUI, Pass, Lukacma, Basic funct. check
 lui2, LUI, Pass, Lukacma, Checking that destination register is overwritten
-lui3, LUI, Pass, Lukacma, Checking with nonzero value between 21th and 25th bit
 lwl1, LWL, Pass, Lukacma, Basic funct. check (fully alligned)
 lwl2, LWL, Pass, Lukacma, Basic funct. check (one off)
 lwl3, LWL, Pass, Lukacma, Basic funct. check (two off)
@@ -81,22 +77,17 @@ sub4, SUB, Pass, Lukacma, Testing subtracting register from itself
 srlv1, SRLV, Pass, Lukacma, Checking that shift is not arithmetic
 srlv2, SRLV, Pass, Lukacma, Checking that only first 5 bits are used
 srlv3, SRLV, Pass, Lukacma, Basic funct. check
-srlv4, SRLV, Pass, Lukacma, Testing SRLV with nonzero shift value
 srl1, SRL, Pass, Lukacma, Checking that shift is not arithmetic
 srl2, SRL, Pass, Lukacma, Basic funct. check
-srl3, SRL, Pass, Lukacma, Checking SRL with non zero rs register
 srav1, SRAV, Pass, Lukacma, Checking that shift is arithmetic
 srav2, SRAV, Pass, Lukacma, Checking that only first 5 bits are used for shift
-xor1, XOR, Pass, Lukacma, Testing XOR with non zero shift value
 xor2, XOR, Pass, Lukacma, Basic funct. check
 xori1, XORI, Pass, Lukacma, Basic funct. check
 xori2, XORI, Pass, Lukacma, checking zero extension of immediate
-sra1, SRA, Pass, Lukacma, Testing SRA with non zero first register
 sra2, SRA, Pass, Lukacma, Basic funct.test+ checking that shift is arithmetic
 sltu1, SLTU, Pass, Lukacma, Testing that comparison is unsigned
 sltu2, SLTU, Pass, Lukacma, Checking equality behaviour
 sltu3, SLTU, Pass, Lukacma, Basic funct. check
-sltu4, SLTU, Pass, Lukacma, Checking nonzero shift
 sltiu1, SLTIU, Pass, Lukacma, Testing signed immediate extension+ Checking that comparison is unsigned
 sltiu2, SLTIU, Pass, Lukacma, Basic func. test
 sltiu3, SLTIU, Pass, Lukacma, Checking equivalence bahviour
@@ -106,47 +97,32 @@ slti3, SLTI, Pass, Lukacma, Checking equivalence behaviour
 slt1, SLT, Pass, Lukacma, Checking equivalence behaviour
 slt2, SLT, Pass, Lukacma, Checking that comparison is signed
 slt3, SLT, Pass, Lukacma, Basic funct. check
-slt4, SLT, Pass, Lukacma, Checking nonempty shift
 sllv1, SLLV, Pass, Lukacma, Testing that only 5 bits are used+ Basic funct test
-sllv2, SLLV, Pass, Lukacma, Checking nonzeor shift
-sll1, SLL, Pass, Lukacma, Testing SLL with non zero first register
 sll2, SLL, Pass, Lukacma, Basic functionality test
 divu1, DIVU, Pass, Lukacma, Basic functionality test
-divu2, DIVU, Pass, Lukacma, Checking with nonzero value between 6th and 15th bit
 div1, DIV, Pass, Lukacma, Basic functionality test(positive/positive)
 div2, DIV, Pass, Lukacma, Basic functionality test(negative/negative)
 div3, DIV, Pass, Lukacma, Basic functionality test(positive/negative)
 div4, DIV, Pass, Lukacma, Basic functionality test(negative/positive)
-div5, DIV, Pass, Lukacma, Dividing by zero
-div6, DIV, Pass, Lukacma, Checking with nonzero value between 6th and 15th bit
+div5, DIV, Pass, Lukacma, Dividing of zero
 multu1, MULTU, Pass, Lukacma, Basic functionality test
 multu2, MULTU, Pass, Lukacma, Checking splitting into HI and LO register
 multu3, MULTU, Pass, Lukacma, Checking that destination register is overwritten
 multu4, MULTU, Pass, Lukacma, Testing if multiplication is unsigned
-multu5, MULTU, Pass, Lukacma, Testing with non zero bits between position 15-6
 multu6, MULTU, Pass, Lukacma, Zero multiplication
 mult1, MULT, Pass, Lukacma, Basic functionality test
 mult2, MULT, Pass, Lukacma, Testing that multiplication is signed(positive*negative)
 mult3, MULT, Pass, Lukacma, Testing that multiplication is signed 2(negative*negative)
 mult4, MULT, Pass, Lukacma, Checking splitting into HI and LO register
 mult5, MULT, Pass, Lukacma, Zero multiplication
-mult6, MULT, Pass, Lukacma, Testing with non zero bits between position 15-6
 mthi1, MTHI, Pass, Lukacma, Basic funct. check
-mthi2, MTHI, Pass, Lukacma, Checking non zero bits between 6 and 20
 mtlo1, MTLO, Pass, Lukacma, Basic funct. check
-mtlo2, MTLO, Pass, Lukacma, Checking non zero bits between 6 and 20
 mfhi1, MFHI, Pass, Lukacma, Basic funct. check
-mfhi2, MFHI, Pass, Lukacma, Checking with non zero values between 6 and 10 bit
-mfhi3, MFHI, Pass, Lukacma, Checking with non zero values between 16 and 25 bit
 mflo1, MFLO, Pass, Lukacma, Basic funct. check
-mflo2, MFLO, Pass, Lukacma, Checking with non zero values between 6 and 10 bit
-mflo3, MFLO, Pass, Lukacma, Checking with non zero values between 16 and 25 bit
 add1, ADD, Pass, Lukacma, Basic funct. check
 add2, ADD, Pass, Lukacma, Checking overflow (with two negatives)
 add3, ADD, Pass, Lukacma, Checking overflow (with two positives)
-add4, ADD, Pass, Lukacma, Passing nonzero shift to add
 addu1, ADDU, Pass, Lukacma, Checking that no arithmetic exceptions are thrown + Basic functionality test
-addu2, ADDU, Pass, Lukacma, Passing nonzero shift to addu
 addi1, ADDI, Pass, Lukacma, Basic funct. test
 addi2, ADDI, Pass, Lukacma, Checking if immediate is signed
 addi3, ADDI, Pass, Lukacma, Checking overflow (negative*negative)
@@ -176,10 +152,7 @@ bgezal2, BGEZAL, Pass, Lukacma, Checking if GPR 31 is written to before branch d
 bgezal3, BGEZAL, Pass, Lukacma, Basic funct. check( comparing with negative)
 bgtz1, BGTZ, Pass, Lukacma, Basic funct. check (comparing 0)
 bgtz2, BGTZ, Pass, Lukacma, Basic funct. check (comparing with negative)
-bgtz3, BGTZ, Pass, Lukacma, Checking with nonzero value between 20th and 16th bit
-blez1, BLEZ, Pass, Lukacma, Basic funct. check (comparing negative)
 blez2, BLEZ, Pass, Lukacma, Checking if delay slot works and if the branch is evaluated before it
-blez3, BLEZ, Pass, Lukacma, Checking with nonzero value between 20th and 16th bit
 bltz1, BLTZ, Pass, Lukacma, Basic funct. check (comparing negative)
 bltz2, BLTZ, Pass, Lukacma, Basic funct. check (comparing zero)
 bltzal1, BLTZAL, Pass, Lukacma, Checking that linking works
@@ -195,5 +168,3 @@ jalr6, JALR, Pass, Lukacma, Jumping to misalligned address
 jalr5, JALR, Pass, Lukacma, Jumping to data memory
 jalr7, JALR, Pass, Lukacma, Jumping to GET_C memory
 jalr8, JALR, Pass, Lukacma, Jumping to PUT_C memory
-jalr9, JALR, Pass, Lukacma, Checking with non zero values between 6 and 10 bit
-jalr10, JALR, Pass, Lukacma, Checking with non zero values between 16 and 20 bit
