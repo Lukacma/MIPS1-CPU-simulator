@@ -1,4 +1,5 @@
-*.o
+\bin/*.o
+\Testbench/bin/
 \.ionide/
 
 \.vscode/

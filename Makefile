@@ -60,10 +60,8 @@ bin:
 # Build simulator
 bin/mips_simulator: $(OBJ_FILES)
 	@g++  $(patsubst %.o,bin/%.o, $(OBJ_FILES)) -o bin/mips_simulator
-# Dummy for build simulator to conform to spec
 simulator: bin/mips_simulator
 	@echo Done
-# Dummy for build testbench to conform to spec. Could do nothing
 testbench:
 	@chmod +x bin/*
 	@bin/dependency.sh
