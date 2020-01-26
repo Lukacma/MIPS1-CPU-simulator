@@ -2,7 +2,7 @@
 
 ### Overview
 
-This a fully working CPU simulator which can run any almost any (See  [specs]( [specs](https://github.com/m8pple/arch2-2019-cw#simulator-inputoutput).) assembly file that uses Mips 1 ISA. Repo also includes the testbench for checking the functionality of the simulator.
+This a fully working CPU simulator which can run any almost any (See [specs](https://github.com/m8pple/arch2-2019-cw#simulator-inputoutput).) assembly file that uses Mips 1 ISA. Repo also includes the testbench for checking the functionality of the simulator.
 
 This repo was developed from scratch as a coursework for Computer Architecture module and was developed jointly with [Saginsky](https://github.com/Saginsky).  Specs and requirements for this coursework can be found [here](https://github.com/m8pple/arch2-2019-cw).
 
